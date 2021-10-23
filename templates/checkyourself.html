@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='dataTables.bootstrap5.min.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='icon.jfif')}}" />
+    <title>Thesis</title>
+</head>
+
+<body>
+    <!-- top navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+                aria-controls="offcanvasExample">
+                <span class="navbar-toggler-icon" data-bs-target="#sidebar"></span>
+            </button>
+            <a class="navbar-brand me-auto ms-lg-0 ms-3 text-uppercase fw-bold" href="/">Thesis</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavBar"
+                aria-controls="topNavBar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="topNavBar">
+                <div class="d-flex ms-auto my-3 my-lg-0"></div>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle ms-2" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-person-fill"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- top navigation bar -->
+    <!-- offcanvas -->
+    <div class="offcanvas offcanvas-start sidebar-nav bg-dark" tabindex="-1" id="sidebar">
+        <div class="offcanvas-body p-0">
+            <nav class="navbar-dark">
+                <ul class="navbar-nav">
+                    <li>
+                        <div class="text-muted small fw-bold text-uppercase px-3">
+                            MAIN
+                        </div>
+                    </li>
+                    <li>
+                        <div class="nav-link px-3 active">
+                            <span class="me-2"><i class="bi bi-speedometer2"></i></span>
+                            <span>Check Your Data</span>
+                        </div>
+                    </li>
+                    <li class="my-4">
+                        <hr class="dropdown-divider bg-light" />
+                    </li>
+                    <li>
+                        <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                            Interface
+                        </div>
+                    </li>
+                    <li>
+                        <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#layouts">
+                            <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                            <span>Feature</span>
+                            <span class="ms-auto">
+                                <span class="right-icon">
+                                    <i class="bi bi-chevron-down"></i>
+                                </span>
+                            </span>
+                        </a>
+                        <div class="collapse" id="layouts">
+                            <ul class="navbar-nav ps-3">
+                                <li>
+                                    <a href="/" class="nav-link px-3">
+                                        <span class="me-2"><i class="bi bi-speedometer2"></i></span>
+                                        <span>Dashboard</span>
+                                    </a>
+                                    <a href="/dataset" class="nav-link px-3">
+                                        <span class="me-2"><i class="bi bi-speedometer2"></i></span>
+                                        <span>Dataset</span>
+                                    </a>
+                                    <a href="/checkyourself" class="nav-link px-3">
+                                        <span class="me-2"><i class="bi bi-speedometer2"></i></span>
+                                        <span>Check Yourself</span>
+                                    </a>
+                                    <a href="/checkyourdataset" class="nav-link px-3">
+                                        <span class="me-2"><i class="bi bi-speedometer2"></i></span>
+                                        <span>Check Dataset</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- offcanvas -->
+    <main class="mt-5 pt-3">
+        <div class="container-fluid">
+            <div class="form-body">
+                <div class="row text-center">
+                    <h3>Check Your Data</h3>
+                </div>
+
+
+                <form action="showresult" method="POST" class="requires-validation" novalidate>
+                    <div class="row mt-4">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 btn btn-info">
+                            <select class="form-select input-sm" name="techniques" required>
+                                <option selected disabled value="">Select Data Mining Technique</option>
+                                <option value="1">KNN-3</option>
+                                <option value="2">KNN-5</option>
+                                <option value="3">KNN-7</option>
+                                <option value="4">Decision Tree</option>
+                                <option value="5">Naive Bayes</option>
+                                <option value="6">SVM</option>
+                                <option value="7">Random Forest</option>
+                            </select>
+                            <div class="valid-feedback">A technique has been selected!</div>
+                            <div class="invalid-feedback">Please select a Technique!</div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="input-group">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2">
+                                <input class="form-control input-sm" type="number" name="input0" min="20" max="100"
+                                    placeholder="Age" required>
+                                <div class="valid-feedback">Age is valid!</div>
+                                <div class="invalid-feedback">Age is invalid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <select class="form-select input-sm" name="input1" required>
+                                    <option selected disabled value="">Gender</option>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
+                                </select>
+                                <div class="valid-feedback">Gender is valid!</div>
+                                <div class="invalid-feedback">Gender is valid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <select class="form-select input-sm" name="input2" required>
+                                    <option selected disabled value="">Chest Pain</option>
+                                    <option value="0">typ_angina</option>
+                                    <option value="1">asympt</option>
+                                    <option value="2">non_asympt</option>
+                                    <option value="3">atyp_angina</option>
+                                </select>
+                                <div class="valid-feedback">Chest Pain is valid!</div>
+                                <div class="invalid-feedback">Chest Pain is valid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <input class="form-control input-sm" type="number" name="input3" min="80" max="200"
+                                    placeholder="Blood Pressure" required>
+                                <div class="valid-feedback">Blood Pressure is valid!</div>
+                                <div class="invalid-feedback">Blood Pressure is invalid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <input class="form-control input-sm" type="number" name="input4" min="100" max="600"
+                                    placeholder="Cholestoral" required>
+                                <div class="valid-feedback">Cholestoral is valid!</div>
+                                <div class="invalid-feedback">Cholestoral is invalid!</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="input-group">
+
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-2">
+                                <select name="input5" class="form-select input-sm" required>
+                                    <option selected disabled value="">Blood Sugar :</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                                <div class="valid-feedback">Blood Sugar is valid!</div>
+                                <div class="invalid-feedback">Blood Sugar is invalid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <select name="input6" class="form-select input-sm" required>
+                                    <option selected disabled value="">Electrocardiographic Results
+                                    </option>
+                                    <option value="0">left_vent_hyper</option>
+                                    <option value="1">normal</option>
+                                    <option value="2">st_t_wave_abnormality</option>
+                                </select>
+                                <div class="valid-feedback">Electrocardiography is valid!</div>
+                                <div class="invalid-feedback">Electrocardiography is invalid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <input class="form-control input-sm" type="number" name="input7" min="60" max="220"
+                                    placeholder="Max Heart Rate" required>
+                                <div class="valid-feedback">Heart Rate is valid!</div>
+                                <div class="invalid-feedback">Heart Rate is invalid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <select name="input8" class="form-select input-sm" required>
+                                    <option selected disabled value="">Exercise induced Angina</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                                <div class="valid-feedback">Exercise induced Angina is valid!</div>
+                                <div class="invalid-feedback">Exercise induced Angina is invalid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <input class="form-control input-sm" type="number" name="input9" min="0" max="7"
+                                    step="0.01" placeholder="ST depression" required>
+                                <div class="valid-feedback">ST depression is valid!</div>
+                                <div class="invalid-feedback">ST depression is invalid!</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="input-group">
+
+                            <div class="col-md-3"></div>
+
+                            <div class="col-md-2">
+                                <select name="input10" class="form-select input-sm" required>
+                                    <option selected disabled value="">Slope</option>
+                                    <option value="0">up</option>
+                                    <option value="1">flat</option>
+                                    <option value="2">down</option>
+                                </select>
+                                <div class="valid-feedback">Slope is valid!</div>
+                                <div class="invalid-feedback">Slope is invalid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <input class="form-control input-sm" type="number" name="input11" min="0" max="4"
+                                    placeholder="Cancer Antigen" required>
+                                <div class="valid-feedback">Cancer Antigen is valid!</div>
+                                <div class="invalid-feedback">Cancer Antigen is invalid!</div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <select name="input12" class="form-select input-sm" required>
+                                    <option selected disabled value="">Thalassemia</option>
+                                    <option value="1">fixed_defect</option>
+                                    <option value="2">normal</option>
+                                    <option value="3">reversable_defect</option>
+                                </select>
+                                <div class="valid-feedback">Thalassemia is valid!</div>
+                                <div class="invalid-feedback">Thalassemia is invalid!</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row text-center mt-4">
+                        <div class="col-md-12">
+                            <button id="submit" type="submit" class="btn btn-primary">Show Result</button>
+                        </div>
+                    </div>
+                </form>
+                {%if data%}
+                <div class="row mt-4">
+                    <div class="col-md 12">
+                        <table class="table table-bordered text-center">
+                            <tr>
+                                <th>Your Data</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md 12">
+
+                        <table class="table table-bordered table-hover table-striped">
+                            <tr>
+                                <th>age</th>
+                                <th>sex</th>
+                                <th>cp</th>
+                                <th>trestbps</th>
+                                <th>chol</th>
+                                <th>fbs</th>
+                                <th>restecg</th>
+                                <th>thalach</th>
+                                <th>exang</th>
+                                <th>oldpeak</th>
+                                <th>slope</th>
+                                <th>ca</th>
+                                <th>thal</th>
+                            </tr>
+                            <tr>
+                                <td>{{data[0][0]}}</td>
+
+                                {%if data[0][1] == '0' %}
+                                <td>Female</td>
+                                {%else%}
+                                <td>Male</td>
+                                {%endif%}
+
+                                {%if data[0][2] == '0'%}
+                                <td>typ_angina </td>
+                                {%elif data[0][2] == '1' %}
+                                <td>asympt</td>
+                                {%elif data[0][2] == '2'%}
+                                <td>non_asympt</td>
+                                {%else%}
+                                <td>atyp_angina</td>
+                                {%endif%}
+
+                                <td>{{data[0][3]}}</td>
+                                <td>{{data[0][4]}}</td>
+
+                                {%if data[0][5] == '1' %}
+                                <td>Yes</td>
+                                {%else%}
+                                <td>No</td>
+                                {%endif%}
+
+                                {%if data[0][6] == '0' %}
+                                <td>left_vent_hyper</td>
+                                {%elif data[0][6] == '1' %}
+                                <td>normal</td>
+                                {%else%}
+                                <td>st_t_wave_abnormality</td>
+                                {%endif%}
+
+                                <td>{{data[0][7]}}</td>
+
+                                {%if data[0][8] == '1'%}
+                                <td>Yes</td>
+                                {%else%}
+                                <td>No</td>
+                                {%endif%}
+
+                                <td>{{data[0][9]}}</td>
+
+                                {%if data[0][10] == '0'%}
+                                <td>Up</td>
+                                {%elif data[0][10] == '1' %}
+                                <td>Flat</td>
+                                {%else%}
+                                <td>Down</td>
+                                {%endif%}
+
+                                <td>{{data[0][11]}}</td>
+
+                                {%if data[0][12] == '1' %}
+                                <td>fixed_defect</td>
+                                {%elif data[0][12] == '2' %}
+                                <td>normal</td>
+                                {%else%}
+                                <td>reversable_defect</td>
+                                {%endif%}
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row text-center mt-4">
+                    <div class="col-md-12">
+                        {%if result[0]==0 %}
+                        <label class="btn btn-danger">{{result[1]}}</label>
+                        <br>
+                        <label class="btn btn-danger">{{result[2]}}</label>
+                        {%else%}
+                        <label class="btn btn-success">{{result[1]}}</label>
+                        <br>
+                        <label class="btn btn-success">{{result[2]}}</label>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endif%}
+            </div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='bootstrap.bundle.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+    <script src="{{ url_for('static', filename='jquery-3.5.1.js')}}"></script>
+    <script src="{{ url_for('static', filename='jquery.dataTables.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='dataTables.bootstrap5.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='script.js')}}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js')}}"></script>
+</body>
+
+</html>

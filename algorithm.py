@@ -59,9 +59,27 @@ def findrecall(clf, dname, target):
     return (floor(recall*10000)/100)
 
 
-def analysis(clf, dname, target):
+def findf1measure(clf, dname, target):
+    data = pd.read_csv(dname)
+    data.head()
+    x_train, x_test, y_train, y_test = train_test_split(
+        data, data.pop(target), test_size=0.30, random_state=5)
+    clf.fit(x_train, y_train)
+    y_pred = clf.predict(x_test)
+    f1measure = metrics.f1_score(y_test, y_pred, average='macro')
+    return (floor(f1measure*10000)/100)
+
+
+def analysis(clf, dname):
     result = []
+    with open(dname, 'r') as csvfile:
+        lines = csv.reader(csvfile)
+        dataset = list(lines)
+
+        target = dataset[0][-1]
+
     result.append(findaccuracy(clf, dname, target))
     result.append(findprecision(clf, dname, target))
     result.append(findrecall(clf, dname, target))
+    result.append(findf1measure(clf, dname, target))
     return result

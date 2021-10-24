@@ -1,5 +1,5 @@
-from math import floor
 from algorithm import *
+from function import *
 
 from flask import Flask, render_template, url_for, request, redirect, flash
 import csv
@@ -13,6 +13,8 @@ app.secret_key = 'Afnan'
 def index():
     dataset = 'static\data.csv'
 
+    pie = countpie(dataset)
+
     clf = []
 
     clf.append(KNeighborsClassifier(n_neighbors=3, metric='minkowski', p=2))
@@ -24,21 +26,10 @@ def index():
     clf.append(KNeighborsClassifier(n_neighbors=7, metric='minkowski', p=2))
 
     rows = []
-    for i in range(0, 6):
-        rows.append(analysis(clf[i], dataset, 'target'))
+    for i in range(0, 7):
+        rows.append(analysis(clf[i], dataset))
 
-    fields = ['Name', 'Branch', 'Year', 'CGPA']
-
-    # name of csv file
-    filename = "static/analysis.csv"
-
-    # writing to csv file
-    with open(filename, 'w') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerow(fields)
-        csvwriter.writerows(rows)
-
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', result=rows, pie=pie)
 
 
 @app.route('/dataset')
@@ -96,24 +87,71 @@ def showresult():
 
 @app.route('/datasetupload', methods=['POST'])
 def showdatasetresult():
+    error = ''
+    result = ''
     if(request.method == 'POST'):
-        file = request.files['upforcheck']
-        file.save(os.path.join('file/file.csv'))
+        if 'file' not in request.files:
+            flash('No file part')
+        else:
+            file = request.files['file']
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename.
+            if file.filename == '':
+                error = "No file found"
+            elif file and allowed_file(file.filename):
 
-    dataset = 'file/file.csv'
+                file.save(os.path.join('file/file.csv'))
+                dataset = 'file/file.csv'
+                with open(dataset, 'r') as csvfile:
+                    lines = csv.reader(csvfile)
+                    dataset = list(lines)
 
-    clf = []
+                    for i in range(1, len(dataset)):
+                        for j in range(len(dataset[i])-1):
+                            isfloat = True
+                            isint = True
+                            try:
+                                float(dataset[i][j])
+                            except ValueError:
+                                isfloat = False
+                            try:
+                                int(dataset[i][j])
+                            except ValueError:
+                                isint = False
 
-    clf.append(KNeighborsClassifier(n_neighbors=3, metric='minkowski', p=2))
-    clf.append(KNeighborsClassifier(n_neighbors=5, metric='minkowski', p=2))
-    clf.append(KNeighborsClassifier(n_neighbors=7, metric='minkowski', p=2))
-    clf.append(DecisionTreeClassifier(random_state=0))
-    clf.append(GaussianNB())
-    clf.append(RandomForestClassifier(n_estimators=100))
-    clf.append(KNeighborsClassifier(n_neighbors=7, metric='minkowski', p=2))
+                            if isfloat or isint:
+                                isnum = 1
+                            else:
+                                error = "Value of attribute " + \
+                                    repr(dataset[0][j]) + \
+                                    " is not a Number in row number: "+repr(i)
+                                isnum = 0
+                                break
+                        if isnum == 0:
+                            break
 
-    result = []
-    for i in range(0, 7):
-        result.append(analysis(clf[i], dataset, 'Drug'))
+                    if isnum == 1:
 
-    return render_template('checkyourdataset.html', error='', result=result)
+                        clf = []
+
+                        dataset = 'file/file.csv'
+
+                        clf.append(KNeighborsClassifier(
+                            n_neighbors=3, metric='minkowski', p=2))
+                        clf.append(KNeighborsClassifier(
+                            n_neighbors=5, metric='minkowski', p=2))
+                        clf.append(KNeighborsClassifier(
+                            n_neighbors=7, metric='minkowski', p=2))
+                        clf.append(DecisionTreeClassifier(random_state=0))
+                        clf.append(GaussianNB())
+                        clf.append(RandomForestClassifier(n_estimators=100))
+                        clf.append(KNeighborsClassifier(
+                            n_neighbors=7, metric='minkowski', p=2))
+
+                        result = []
+                        for i in range(0, 7):
+                            result.append(analysis(clf[i], dataset))
+            else:
+                error = "Uploaded file is not in .csv from"
+
+    return render_template('checkyourdataset.html', error=error, result=result)

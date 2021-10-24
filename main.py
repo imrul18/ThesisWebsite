@@ -22,8 +22,8 @@ def index():
     clf.append(KNeighborsClassifier(n_neighbors=7, metric='minkowski', p=2))
     clf.append(DecisionTreeClassifier(random_state=0))
     clf.append(GaussianNB())
+    clf.append(svm.SVC(kernel='linear'))
     clf.append(RandomForestClassifier(n_estimators=100))
-    clf.append(KNeighborsClassifier(n_neighbors=7, metric='minkowski', p=2))
 
     rows = []
     for i in range(0, 7):
@@ -143,15 +143,14 @@ def showdatasetresult():
                         clf.append(KNeighborsClassifier(
                             n_neighbors=7, metric='minkowski', p=2))
                         clf.append(DecisionTreeClassifier(random_state=0))
-                        clf.append(GaussianNB())
+                        clf.append(GaussianNB())                        
+                        clf.append(svm.SVC(kernel='linear'))
                         clf.append(RandomForestClassifier(n_estimators=100))
-                        clf.append(KNeighborsClassifier(
-                            n_neighbors=7, metric='minkowski', p=2))
 
                         result = []
                         for i in range(0, 7):
                             result.append(analysis(clf[i], dataset))
             else:
-                error = "Uploaded file is not in .csv from"
+                error = "Uploaded file is not in .csv format"
 
     return render_template('checkyourdataset.html', error=error, result=result)

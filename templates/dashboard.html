@@ -179,19 +179,87 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12 mb-3">
+            <div class="row text-center">
+                <div class="col-md-4 mb-3">
                     <div class="card h-100">
                         <div class="card-header">
                             <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-                            Accuracy, Precision, Recall, f2measure Chart
+                            KNN-3
                         </div>
                         <div class="card-body">
-                            <canvas class="chart" id="value" width="400" height="100"></canvas>
+                            <canvas class="chart0" id="value" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            KNN-5
+                        </div>
+                        <div class="card-body">
+                            <canvas class="chart1" id="value" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            KNN-7
+                        </div>
+                        <div class="card-body">
+                            <canvas class="chart2" id="value" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            Decision Tree
+                        </div>
+                        <div class="card-body">
+                            <canvas class="chart3" id="value" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            Naive Bayes
+                        </div>
+                        <div class="card-body">
+                            <canvas class="chart4" id="value" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            SVM
+                        </div>
+                        <div class="card-body">
+                            <canvas class="chart5" id="value" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3"></div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            Random Forest
+                        </div>
+                        <div class="card-body">
+                            <canvas class="chart6" id="value" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row text-center">
                 <div class="col-12">
                     <h2>Comparison of those pewple who has Heart Disease</h2>
@@ -241,21 +309,26 @@
 </body>
 
 <script>
-    const charts = document.querySelectorAll(".chart");
+    const charts0 = document.querySelectorAll(".chart0");
+    const charts1 = document.querySelectorAll(".chart1");
+    const charts2 = document.querySelectorAll(".chart2");
+    const charts3 = document.querySelectorAll(".chart3");
+    const charts4 = document.querySelectorAll(".chart4");
+    const charts5 = document.querySelectorAll(".chart5");
+    const charts6 = document.querySelectorAll(".chart6");
 
-    charts.forEach(function (chart) {
+    charts0.forEach(function (chart) {
         var ctx = chart.getContext("2d");
         var myChart = new Chart(ctx, {
             type: "bar",
             data: {
-                labels: ["KNN-3 Accuracy", "KNN-3 Precision", "KNN-3 Recall", "KNN-3 f-measure", "KNN-5 Accuracy", "KNN-5 Precision", "KNN-5 Recall", "KNN-5 f-measure", "KNN-7 Accuracy", "KNN-7 Precision", "KNN-7 Recall", "KNN-7 f-measure", "Decision Tree Accuracy", "Decision Tree Precision", "Decision Tree Recall", "Decision Tree f-measure", "Naive Bayes Accuracy", "Naive Bayes Precision", "Naive Bayes Recall", "Naive Bayes f-measure", "SVM Accuracy", "SVM Precision", "SVM Recall", "SVM f-measure", "Random Forest Accuracy", "Random Forest Accuracy", "Random Forest Recall", "Random Forest f-measure"],
+                labels: ["Accuracy", "Precision", "Recall", "f-measure"],
                 datasets: [
                     {
                         label: ["value"],
-                        data: [{%for i in range(7): %}
-                                {%for j in range(4): %}
-                        {{ result[i][j] }},
-        {% endfor %}
+                        data: [
+                            {%for j in range(4): %}
+                        {{ result[0][j] }},
         {% endfor %}
                     
                     ],
@@ -284,6 +357,255 @@
     },
         });
     });
+
+    charts1.forEach(function (chart) {
+        var ctx = chart.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Accuracy", "Precision", "Recall", "f-measure"],
+                datasets: [
+                    {
+                        label: ["value"],
+                        data: [
+                            {%for j in range(4): %}
+                        {{ result[1][j] }},
+        {% endfor %}
+                    
+                    ],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+    ],
+        borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(75, 192, 192, 1)',
+    ],
+        borderWidth: 1,
+            },
+                ],
+    },
+        options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
+        });
+    });
+
+    charts2.forEach(function (chart) {
+        var ctx = chart.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Accuracy", "Precision", "Recall", "f-measure"],
+                datasets: [
+                    {
+                        label: ["value"],
+                        data: [
+                            {%for j in range(4): %}
+                        {{ result[2][j] }},
+        {% endfor %}
+                    
+                    ],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+    ],
+        borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(75, 192, 192, 1)',
+    ],
+        borderWidth: 1,
+            },
+                ],
+    },
+        options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
+        });
+    });
+
+    charts3.forEach(function (chart) {
+        var ctx = chart.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Accuracy", "Precision", "Recall", "f-measure"],
+                datasets: [
+                    {
+                        label: ["value"],
+                        data: [
+                            {%for j in range(4): %}
+                        {{ result[3][j] }},
+        {% endfor %}
+                    
+                    ],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+    ],
+        borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(75, 192, 192, 1)',
+    ],
+        borderWidth: 1,
+            },
+                ],
+    },
+        options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
+        });
+    });
+
+    charts4.forEach(function (chart) {
+        var ctx = chart.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Accuracy", "Precision", "Recall", "f-measure"],
+                datasets: [
+                    {
+                        label: ["value"],
+                        data: [
+                            {%for j in range(4): %}
+                        {{ result[4][j] }},
+        {% endfor %}
+                    
+                    ],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+    ],
+        borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(75, 192, 192, 1)',
+    ],
+        borderWidth: 1,
+            },
+                ],
+    },
+        options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
+        });
+    });
+
+    charts5.forEach(function (chart) {
+        var ctx = chart.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Accuracy", "Precision", "Recall", "f-measure"],
+                datasets: [
+                    {
+                        label: ["value"],
+                        data: [
+                            {%for j in range(4): %}
+                        {{ result[5][j] }},
+        {% endfor %}
+                    
+                    ],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+    ],
+        borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(75, 192, 192, 1)',
+    ],
+        borderWidth: 1,
+            },
+                ],
+    },
+        options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
+        });
+    });
+
+    charts6.forEach(function (chart) {
+        var ctx = chart.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Accuracy", "Precision", "Recall", "f-measure"],
+                datasets: [
+                    {
+                        label: ["value"],
+                        data: [
+                            {%for j in range(4): %}
+                        {{ result[6][j] }},
+        {% endfor %}
+                    
+                    ],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+    ],
+        borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(75, 192, 192, 1)',
+    ],
+        borderWidth: 1,
+            },
+                ],
+    },
+        options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
+        });
+    });
+
+
+
 
     var ctxP = document.getElementById("pieChart1").getContext('2d');
     var myPieChart = new Chart(ctxP, {
@@ -321,7 +643,7 @@
     var myPieChart = new Chart(ctxP, {
         type: 'pie',
         data: {
-            labels: ["typ_angina", "asympt", "atyp_angina", "Grey"],
+            labels: ["typ_angina", "asympt", "non-anginal", "atyp_angina"],
             datasets: [{
                 data: {{ pie[2] }},
         backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1"],
